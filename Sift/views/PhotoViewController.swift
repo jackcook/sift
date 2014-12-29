@@ -40,7 +40,7 @@ class PhotoViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
-        self.photoView.backgroundColor = UIColor.blackColor()
+        photoView.backgroundColor = UIColor.blackColor()
         
         var fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
         
@@ -69,27 +69,27 @@ class PhotoViewController: UIViewController {
         
         var sgrl = UISwipeGestureRecognizer(target: self, action: "nextPhoto")
         sgrl.direction = UISwipeGestureRecognizerDirection.Left
-        self.photoView.addGestureRecognizer(sgrl)
+        photoView.addGestureRecognizer(sgrl)
         
         var sgrr = UISwipeGestureRecognizer(target: self, action: "previousPhoto")
         sgrr.direction = UISwipeGestureRecognizerDirection.Right
-        self.photoView.addGestureRecognizer(sgrr)
+        photoView.addGestureRecognizer(sgrr)
         
         var sgrd = UISwipeGestureRecognizer(target: self, action: "deletePhoto")
         sgrd.direction = UISwipeGestureRecognizerDirection.Down
-        self.photoView.addGestureRecognizer(sgrd)
+        photoView.addGestureRecognizer(sgrd)
         
         var sgru = UISwipeGestureRecognizer(target: self, action: "sharePhoto")
         sgru.direction = UISwipeGestureRecognizerDirection.Up
-        self.photoView.addGestureRecognizer(sgru)
+        photoView.addGestureRecognizer(sgru)
         
         var tap = UITapGestureRecognizer(target: self, action: "toggleUI")
         tap.numberOfTapsRequired = 1
-        self.photoView.addGestureRecognizer(tap)
+        photoView.addGestureRecognizer(tap)
         
         var dtap = UITapGestureRecognizer(target: self, action: "deleteButton")
         dtap.numberOfTapsRequired = 2
-        self.photoView.addGestureRecognizer(dtap)
+        photoView.addGestureRecognizer(dtap)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -108,8 +108,8 @@ class PhotoViewController: UIViewController {
             self.photoTitle.alpha = self.hidden ? 1 : 0
             self.shareButton.alpha = self.hidden ? 1 : 0
             self.trashButton.alpha = self.hidden ? 1 : 0
-            }, completion: { (done) -> Void in
-                self.hidden = !self.hidden
+        }, completion: { (done) -> Void in
+            self.hidden = !self.hidden
         })
     }
     
@@ -133,7 +133,7 @@ class PhotoViewController: UIViewController {
     @IBAction func shareButton(sender: AnyObject) {
         if share.count > 0 {
             var toshare = [UIImage]()
-            for asset in self.share {
+            for asset in share {
                 toshare.append(asset.image)
             }
             
@@ -148,11 +148,13 @@ class PhotoViewController: UIViewController {
     
     func nextPhoto() {
         photoView.loadAsset(assets[current + 1], fromSide: .Right, dismissToSide: .Left)
+        photoTitle.text = assets[current].name
         current += 1
     }
     
     func previousPhoto() {
         photoView.loadAsset(assets[current - 1], fromSide: .Left, dismissToSide: .Right)
+        photoTitle.text = assets[current].name
         current -= 1
     }
     
@@ -167,13 +169,14 @@ class PhotoViewController: UIViewController {
         }
         
         photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Down)
+        photoTitle.text = assets[current].name
         
-        self.photoTitle.text = self.assets[self.current].name
+        photoTitle.text = assets[current].name
         total -= 1
     }
     
     func quickShare() {
-        var image = self.assets[current].image
+        var image = assets[current].image
         var activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         self.presentViewController(activityController, animated: true, completion: nil)
     }
@@ -190,31 +193,18 @@ class PhotoViewController: UIViewController {
         
         photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Up)
         
-        self.photoTitle.text = self.assets[self.current].name
-        self.total -= 1
+        photoTitle.text = assets[current].name
+        total -= 1
     }
     
     func undo() {
-        if self.delete.count > 0 {
+        if delete.count > 0 {
             var deleted = delete[delete.count - 1]
             assets.insert(deleted, atIndex: current)
             
             delete.removeAtIndex(delete.count - 1)
             
-            var img = deleted.image
-            nextImage = UIImageView(image: img)
-            nextImage.frame = CGRectMake(0, device.height + (device.height - img.size.height) / 2, img.size.width, img.size.height)
-            self.photoView.insertSubview(self.nextImage, belowSubview: self.navigationController!.navigationBar)
-            
-            UIView.animateWithDuration(0.15, animations: { () -> Void in
-                self.nextImage.frame = CGRectMake(self.nextImage.frame.origin.x, (device.size.height - img.size.height) / 2, self.nextImage.frame.size.width, self.nextImage.frame.size.height)
-                self.currentImage.frame = CGRectMake(device.width, self.currentImage.frame.origin.y, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
-            }) { (done) -> Void in
-                self.photoTitle.text = self.assets[self.current].name
-                self.currentImage.removeFromSuperview()
-                self.currentImage = self.nextImage
-                self.nextImage = nil
-            }
+            photoView.loadAsset(assets[current], fromSide: .Down, dismissToSide: .Right)
         }
     }
     
