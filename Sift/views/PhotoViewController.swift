@@ -42,16 +42,6 @@ class PhotoViewController: UIViewController {
         
         self.photoView.backgroundColor = UIColor.blackColor()
         
-        if defaults.dictionaryForKey(BindingsDefault) == nil {
-            var bindings = ["Swipe Left": "Next Photo",
-                "Swipe Right": "Previous Photo",
-                "Swipe Down": "Delete Photo",
-                "Swipe Up": "Share",
-                "Double Tap": "Quick Share",
-                "Shake Device": "Undo"]
-            defaults.setObject(bindings, forKey: BindingsDefault)
-        }
-        
         var fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
         
         fetchResult.enumerateObjectsUsingBlock { (phasset, idx, stop) -> Void in
@@ -77,27 +67,27 @@ class PhotoViewController: UIViewController {
             }
         }
         
-        var sgrl = UISwipeGestureRecognizer(target: self, action: "swipe:")
+        var sgrl = UISwipeGestureRecognizer(target: self, action: "nextPhoto")
         sgrl.direction = UISwipeGestureRecognizerDirection.Left
         self.photoView.addGestureRecognizer(sgrl)
         
-        var sgrr = UISwipeGestureRecognizer(target: self, action: "swipe:")
+        var sgrr = UISwipeGestureRecognizer(target: self, action: "previousPhoto")
         sgrr.direction = UISwipeGestureRecognizerDirection.Right
         self.photoView.addGestureRecognizer(sgrr)
         
-        var sgrd = UISwipeGestureRecognizer(target: self, action: "swipe:")
+        var sgrd = UISwipeGestureRecognizer(target: self, action: "deletePhoto")
         sgrd.direction = UISwipeGestureRecognizerDirection.Down
         self.photoView.addGestureRecognizer(sgrd)
         
-        var sgru = UISwipeGestureRecognizer(target: self, action: "swipe:")
+        var sgru = UISwipeGestureRecognizer(target: self, action: "sharePhoto")
         sgru.direction = UISwipeGestureRecognizerDirection.Up
         self.photoView.addGestureRecognizer(sgru)
         
-        var tap = UITapGestureRecognizer(target: self, action: "tap:")
+        var tap = UITapGestureRecognizer(target: self, action: "toggleUI")
         tap.numberOfTapsRequired = 1
         self.photoView.addGestureRecognizer(tap)
         
-        var dtap = UITapGestureRecognizer(target: self, action: "tap:")
+        var dtap = UITapGestureRecognizer(target: self, action: "deleteButton")
         dtap.numberOfTapsRequired = 2
         self.photoView.addGestureRecognizer(dtap)
     }
@@ -111,42 +101,19 @@ class PhotoViewController: UIViewController {
         return true
     }
     
-    func swipe(sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case UISwipeGestureRecognizerDirection.Left:
-            performAction(PSGesture.SwipeLeft)
-        case UISwipeGestureRecognizerDirection.Right:
-            performAction(PSGesture.SwipeRight)
-        case UISwipeGestureRecognizerDirection.Down:
-            performAction(PSGesture.SwipeDown)
-        case UISwipeGestureRecognizerDirection.Up:
-            performAction(PSGesture.SwipeUp)
-        default:
-            NSLog("wat")
-        }
-    }
-    
-    func tap(sender: UITapGestureRecognizer) {
-        switch sender.numberOfTapsRequired {
-        case 1:
-            UIApplication.sharedApplication().setStatusBarHidden(self.hidden ? false : true, withAnimation: UIStatusBarAnimation.Fade)
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
-                self.topBar.alpha = self.hidden ? 1 : 0
-                self.settingsButton.alpha = self.hidden ? 1 : 0
-                self.photoTitle.alpha = self.hidden ? 1 : 0
-                self.shareButton.alpha = self.hidden ? 1 : 0
-                self.trashButton.alpha = self.hidden ? 1 : 0
+    func toggleUI() {
+        UIView.animateWithDuration(0.4, animations: { () -> Void in
+            self.topBar.alpha = self.hidden ? 1 : 0
+            self.settingsButton.alpha = self.hidden ? 1 : 0
+            self.photoTitle.alpha = self.hidden ? 1 : 0
+            self.shareButton.alpha = self.hidden ? 1 : 0
+            self.trashButton.alpha = self.hidden ? 1 : 0
             }, completion: { (done) -> Void in
                 self.hidden = !self.hidden
-            })
-        case 2:
-            performAction(PSGesture.DoubleTap)
-        default:
-            NSLog("\(sender.numberOfTapsRequired)")
-        }
+        })
     }
     
-    @IBAction func deleteButton(sender: AnyObject) {
+    @IBAction func deleteButton() {
         if delete.count > 0 {
             var todelete = [PHAsset]()
             for asset in delete {
@@ -176,28 +143,7 @@ class PhotoViewController: UIViewController {
     }
     
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
-        performAction(.Shake)
-    }
-    
-    func performAction(gesture: PSGesture) {
-        var bindings = defaults.dictionaryForKey(BindingsDefault) as [String: String]
-        var action = stringToAction(bindings[gestureToString(gesture)]!)
-        switch action {
-        case .NextPhoto:
-            nextPhoto()
-        case .PreviousPhoto:
-            previousPhoto()
-        case .DeletePhoto:
-            deletePhoto()
-        case .QuickShare:
-            quickShare()
-        case .Share:
-            sharePhoto()
-        case .Undo:
-            undo()
-        default:
-            NSLog("wat")
-        }
+        undo()
     }
     
     func nextPhoto() {

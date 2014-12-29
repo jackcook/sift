@@ -20,7 +20,6 @@
 		EB5B6F971A2A438C00867409 /* SiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6F961A2A438C00867409 /* SiftTests.swift */; };
 		EBAC2F961A2A4448002ADEB5 /* PSAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAC2F921A2A4448002ADEB5 /* PSAsset.swift */; };
 		EBAC2F971A2A4448002ADEB5 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAC2F941A2A4448002ADEB5 /* PhotoViewController.swift */; };
-		EBAC2F981A2A4448002ADEB5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAC2F951A2A4448002ADEB5 /* SettingsViewController.swift */; };
 		EBAC2F9A1A2A44A4002ADEB5 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAC2F991A2A44A4002ADEB5 /* Common.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 		EBAC2F911A2A4448002ADEB5 /* ObjectiveBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveBridge.h; sourceTree = "<group>"; };
 		EBAC2F921A2A4448002ADEB5 /* PSAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PSAsset.swift; sourceTree = "<group>"; };
 		EBAC2F941A2A4448002ADEB5 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
-		EBAC2F951A2A4448002ADEB5 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EBAC2F991A2A44A4002ADEB5 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				EBAC2F941A2A4448002ADEB5 /* PhotoViewController.swift */,
-				EBAC2F951A2A4448002ADEB5 /* SettingsViewController.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -327,7 +324,6 @@
 			files = (
 				EBAC2F971A2A4448002ADEB5 /* PhotoViewController.swift in Sources */,
 				EBAC2F961A2A4448002ADEB5 /* PSAsset.swift in Sources */,
-				EBAC2F981A2A4448002ADEB5 /* SettingsViewController.swift in Sources */,
 				EB108A5F1A51B8A400657E7B /* PhotoView.swift in Sources */,
 				EBAC2F9A1A2A44A4002ADEB5 /* Common.swift in Sources */,
 				EB5B6F811A2A438C00867409 /* AppDelegate.swift in Sources */,
