@@ -10,9 +10,12 @@ import Photos
 import UIKit
 
 class PhotoViewController: UIViewController {
-
-    @IBOutlet var barTitle: UINavigationItem!
-    @IBOutlet var doneButton: UIBarButtonItem!
+    
+    @IBOutlet var topBar: UIImageView!
+    @IBOutlet var settingsButton: UIButton!
+    @IBOutlet var photoTitle: UILabel!
+    @IBOutlet var shareButton: UIButton!
+    @IBOutlet var trashButton: UIButton!
     
     @IBOutlet var photoView: UIView!
     var hidden = false
@@ -32,9 +35,6 @@ class PhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.None)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.16, green: 0.5, blue: 0.73, alpha: 1)
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
@@ -70,7 +70,7 @@ class PhotoViewController: UIViewController {
                         self.currentImage = UIImageView(image: img)
                         self.currentImage.frame = CGRectMake((device.size.width - img.size.width) / 2, (device.size.height - img.size.height) / 2, device.width, img.size.height)
                         self.photoView.insertSubview(self.currentImage, belowSubview: self.navigationController!.navigationBar)
-                        self.navigationController?.navigationBar.topItem?.title = self.assets[self.current].name
+                        self.photoTitle?.text = self.assets[self.current].name
                     }
                     self.total += 1
                 }
@@ -131,7 +131,11 @@ class PhotoViewController: UIViewController {
         case 1:
             UIApplication.sharedApplication().setStatusBarHidden(self.hidden ? false : true, withAnimation: UIStatusBarAnimation.Fade)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                self.navigationController!.navigationBar.alpha = self.hidden ? 1 : 0
+                self.topBar.alpha = self.hidden ? 1 : 0
+                self.settingsButton.alpha = self.hidden ? 1 : 0
+                self.photoTitle.alpha = self.hidden ? 1 : 0
+                self.shareButton.alpha = self.hidden ? 1 : 0
+                self.trashButton.alpha = self.hidden ? 1 : 0
             }, completion: { (done) -> Void in
                 self.hidden = !self.hidden
             })
@@ -225,7 +229,7 @@ class PhotoViewController: UIViewController {
             self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
             self.currentImage.frame = CGRectMake(l ? -device.width : device.width, self.currentImage.frame.origin.y, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
         }) { (done) -> Void in
-            self.navigationController?.navigationBar.topItem?.title = self.assets[self.current].name
+            self.photoTitle.text = self.assets[self.current].name
             self.currentImage.removeFromSuperview()
             self.currentImage = self.nextImage
             self.nextImage = nil
@@ -251,7 +255,7 @@ class PhotoViewController: UIViewController {
             self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
             self.currentImage.frame = CGRectMake(0, device.height, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
         }) { (done) -> Void in
-            self.navigationController?.navigationBar.topItem?.title = self.assets[self.current].name
+            self.photoTitle.text = self.assets[self.current].name
             self.currentImage.removeFromSuperview()
             self.currentImage = self.nextImage
             self.nextImage = nil
@@ -284,7 +288,7 @@ class PhotoViewController: UIViewController {
             self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
             self.currentImage.frame = CGRectMake(0, -self.currentImage.frame.size.height, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
         }) { (done) -> Void in
-            self.navigationController?.navigationBar.topItem?.title = self.assets[self.current].name
+            self.photoTitle.text = self.assets[self.current].name
             self.currentImage.removeFromSuperview()
             self.currentImage = self.nextImage
             self.nextImage = nil
@@ -308,11 +312,15 @@ class PhotoViewController: UIViewController {
                 self.nextImage.frame = CGRectMake(self.nextImage.frame.origin.x, (device.size.height - img.size.height) / 2, self.nextImage.frame.size.width, self.nextImage.frame.size.height)
                 self.currentImage.frame = CGRectMake(device.width, self.currentImage.frame.origin.y, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
             }) { (done) -> Void in
-                self.navigationController?.navigationBar.topItem?.title = self.assets[self.current].name
+                self.photoTitle.text = self.assets[self.current].name
                 self.currentImage.removeFromSuperview()
                 self.currentImage = self.nextImage
                 self.nextImage = nil
             }
         }
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
 }

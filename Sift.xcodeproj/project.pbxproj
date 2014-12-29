@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0DF38908D26BD8CDB3D3F581 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D460C5F0551AD3AE3192355C /* libPods.a */; };
+		EB108A571A51A78900657E7B /* image01.png in Resources */ = {isa = PBXBuildFile; fileRef = EB108A561A51A78900657E7B /* image01.png */; };
+		EB108A591A51B1AA00657E7B /* image02.png in Resources */ = {isa = PBXBuildFile; fileRef = EB108A581A51B1AA00657E7B /* image02.png */; };
+		EB108A5B1A51B3C400657E7B /* image03.png in Resources */ = {isa = PBXBuildFile; fileRef = EB108A5A1A51B3C400657E7B /* image03.png */; };
+		EB108A5D1A51B46700657E7B /* image04.png in Resources */ = {isa = PBXBuildFile; fileRef = EB108A5C1A51B46700657E7B /* image04.png */; };
 		EB5B6F811A2A438C00867409 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6F801A2A438C00867409 /* AppDelegate.swift */; };
-		EB5B6F831A2A438C00867409 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B6F821A2A438C00867409 /* ViewController.swift */; };
 		EB5B6F861A2A438C00867409 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB5B6F841A2A438C00867409 /* Main.storyboard */; };
 		EB5B6F881A2A438C00867409 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB5B6F871A2A438C00867409 /* Images.xcassets */; };
 		EB5B6F8B1A2A438C00867409 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB5B6F891A2A438C00867409 /* LaunchScreen.xib */; };
@@ -34,10 +37,13 @@
 		7328A3ACA42CFFF75F671635 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B688AF40768DE426A085C1BF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D460C5F0551AD3AE3192355C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB108A561A51A78900657E7B /* image01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image01.png; sourceTree = "<group>"; };
+		EB108A581A51B1AA00657E7B /* image02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image02.png; sourceTree = "<group>"; };
+		EB108A5A1A51B3C400657E7B /* image03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image03.png; sourceTree = "<group>"; };
+		EB108A5C1A51B46700657E7B /* image04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image04.png; sourceTree = "<group>"; };
 		EB5B6F7B1A2A438C00867409 /* Sift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB5B6F7F1A2A438C00867409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB5B6F801A2A438C00867409 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EB5B6F821A2A438C00867409 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EB5B6F851A2A438C00867409 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB5B6F871A2A438C00867409 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EB5B6F8A1A2A438C00867409 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -87,6 +93,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EB108A551A51A78900657E7B /* images */ = {
+			isa = PBXGroup;
+			children = (
+				EB108A561A51A78900657E7B /* image01.png */,
+				EB108A581A51B1AA00657E7B /* image02.png */,
+				EB108A5A1A51B3C400657E7B /* image03.png */,
+				EB108A5C1A51B46700657E7B /* image04.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		EB5B6F721A2A438C00867409 = {
 			isa = PBXGroup;
 			children = (
@@ -110,11 +127,11 @@
 		EB5B6F7D1A2A438C00867409 /* Sift */ = {
 			isa = PBXGroup;
 			children = (
+				EB108A551A51A78900657E7B /* images */,
 				EBAC2F991A2A44A4002ADEB5 /* Common.swift */,
 				EBAC2F901A2A4448002ADEB5 /* util */,
 				EBAC2F931A2A4448002ADEB5 /* views */,
 				EB5B6F801A2A438C00867409 /* AppDelegate.swift */,
-				EB5B6F821A2A438C00867409 /* ViewController.swift */,
 				EB5B6F841A2A438C00867409 /* Main.storyboard */,
 				EB5B6F871A2A438C00867409 /* Images.xcassets */,
 				EB5B6F891A2A438C00867409 /* LaunchScreen.xib */,
@@ -250,6 +267,10 @@
 			files = (
 				EB5B6F861A2A438C00867409 /* Main.storyboard in Resources */,
 				EB5B6F8B1A2A438C00867409 /* LaunchScreen.xib in Resources */,
+				EB108A5B1A51B3C400657E7B /* image03.png in Resources */,
+				EB108A5D1A51B46700657E7B /* image04.png in Resources */,
+				EB108A571A51A78900657E7B /* image01.png in Resources */,
+				EB108A591A51B1AA00657E7B /* image02.png in Resources */,
 				EB5B6F881A2A438C00867409 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB5B6F831A2A438C00867409 /* ViewController.swift in Sources */,
 				EBAC2F971A2A4448002ADEB5 /* PhotoViewController.swift in Sources */,
 				EBAC2F961A2A4448002ADEB5 /* PSAsset.swift in Sources */,
 				EBAC2F981A2A4448002ADEB5 /* SettingsViewController.swift in Sources */,
@@ -430,6 +450,7 @@
 			baseConfigurationReference = B688AF40768DE426A085C1BF /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Sift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,6 +463,7 @@
 			baseConfigurationReference = 7328A3ACA42CFFF75F671635 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Sift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
