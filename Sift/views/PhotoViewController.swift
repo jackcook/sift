@@ -25,9 +25,6 @@ class PhotoViewController: UIViewController {
     var currentImage: UIImageView!
     var nextImage: UIImageView!
     
-    var photoLibrary = PHPhotoLibrary.sharedPhotoLibrary()
-    var imageManager = PHImageManager.defaultManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +41,7 @@ class PhotoViewController: UIViewController {
             asset.asset = phasset as PHAsset
             var requestOptions = PHImageRequestOptions()
             requestOptions.resizeMode = PHImageRequestOptionsResizeMode.Fast
-            self.imageManager.requestImageForAsset(phasset as PHAsset, targetSize: UIScreen.mainScreen().bounds.size, contentMode: PHImageContentMode.AspectFit, options: requestOptions) { (image, info) -> Void in
+            PHImageManager.defaultManager().requestImageForAsset(phasset as PHAsset, targetSize: UIScreen.mainScreen().bounds.size, contentMode: PHImageContentMode.AspectFit, options: requestOptions) { (image, info) -> Void in
                 if image.size.width > 100 && info["PHImageFileURLKey"] != nil {
                     asset.image = image
                     asset.name = (info["PHImageFileURLKey"]! as NSURL).lastPathComponent
@@ -118,7 +115,7 @@ class PhotoViewController: UIViewController {
         }
         
         if todelete.count > 0 {
-            photoLibrary.performChanges({ () -> Void in
+            PHPhotoLibrary.sharedPhotoLibrary().performChanges({ () -> Void in
                 PHAssetChangeRequest.deleteAssets(todelete)
             }, completionHandler: { (success, error) -> Void in
                 if success {
