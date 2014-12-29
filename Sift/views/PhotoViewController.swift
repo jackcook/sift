@@ -42,7 +42,7 @@ class PhotoViewController: UIViewController {
         
         self.photoView.backgroundColor = UIColor.blackColor()
         
-        //if (defaults.dictionaryForKey(BindingsDefault) == nil) {
+        if defaults.dictionaryForKey(BindingsDefault) == nil {
             var bindings = ["Swipe Left": "Next Photo",
                 "Swipe Right": "Previous Photo",
                 "Swipe Down": "Delete Photo",
@@ -50,7 +50,7 @@ class PhotoViewController: UIViewController {
                 "Double Tap": "Quick Share",
                 "Shake Device": "Undo"]
             defaults.setObject(bindings, forKey: BindingsDefault)
-        //}
+        }
         
         var fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
         
@@ -60,12 +60,12 @@ class PhotoViewController: UIViewController {
             var requestOptions = PHImageRequestOptions()
             requestOptions.resizeMode = PHImageRequestOptionsResizeMode.Fast
             self.imageManager.requestImageForAsset(phasset as PHAsset, targetSize: UIScreen.mainScreen().bounds.size, contentMode: PHImageContentMode.AspectFit, options: requestOptions) { (image, info) -> Void in
-                if (image.size.width > 100 && info["PHImageFileURLKey"] != nil) {
+                if image.size.width > 100 && info["PHImageFileURLKey"] != nil {
                     asset.image = image
                     asset.name = (info["PHImageFileURLKey"]! as NSURL).lastPathComponent
                     asset.index = idx
                     self.assets.append(asset)
-                    if (idx == 0) {
+                    if idx == 0 {
                         var img = self.assets[0].image
                         self.currentImage = UIImageView(image: img)
                         self.currentImage.frame = CGRectMake((device.size.width - img.size.width) / 2, (device.size.height - img.size.height) / 2, device.width, img.size.height)
@@ -112,7 +112,7 @@ class PhotoViewController: UIViewController {
     }
     
     func swipe(sender: UISwipeGestureRecognizer) {
-        switch (sender.direction) {
+        switch sender.direction {
         case UISwipeGestureRecognizerDirection.Left:
             performAction(PSGesture.SwipeLeft)
         case UISwipeGestureRecognizerDirection.Right:
@@ -127,7 +127,7 @@ class PhotoViewController: UIViewController {
     }
     
     func tap(sender: UITapGestureRecognizer) {
-        switch (sender.numberOfTapsRequired) {
+        switch sender.numberOfTapsRequired {
         case 1:
             UIApplication.sharedApplication().setStatusBarHidden(self.hidden ? false : true, withAnimation: UIStatusBarAnimation.Fade)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
@@ -143,7 +143,7 @@ class PhotoViewController: UIViewController {
     }
     
     @IBAction func doneButton(sender: AnyObject) {
-        if (delete.count > 0) {
+        if delete.count > 0 {
             var todelete = [PHAsset]()
             for asset in delete {
                 todelete.append(asset.asset)
@@ -152,7 +152,7 @@ class PhotoViewController: UIViewController {
             photoLibrary.performChanges({ () -> Void in
                 PHAssetChangeRequest.deleteAssets(todelete)
             }, completionHandler: { (success, error) -> Void in
-                if (success) {
+                if success {
                     self.delete = [PSAsset]()
                 }
                 
@@ -164,7 +164,7 @@ class PhotoViewController: UIViewController {
     }
     
     func sharePhotos() {
-        if (self.share.count > 0) {
+        if self.share.count > 0 {
             var toshare = [UIImage]()
             for asset in self.share {
                 toshare.append(asset.image)
@@ -182,7 +182,7 @@ class PhotoViewController: UIViewController {
     func performAction(gesture: PSGesture) {
         var bindings = defaults.dictionaryForKey(BindingsDefault) as [String: String]
         var action = stringToAction(bindings[gestureToString(gesture)]!)
-        switch (action) {
+        switch action {
         case PSAction.NextPhoto:
             nextPhoto()
         case PSAction.PreviousPhoto:
@@ -211,7 +211,7 @@ class PhotoViewController: UIViewController {
     func changePhoto(direction: Bool) {
         var l = direction
         
-        if (l ? current + 1 == total : current == 0) {
+        if l ? current + 1 == total : current == 0 {
             return
         }
         
@@ -237,7 +237,7 @@ class PhotoViewController: UIViewController {
         assets.removeAtIndex(current)
         
         var l = true
-        if (current + 1 == total) {
+        if current + 1 == total {
             l = false
             current -= 1
         }
@@ -270,7 +270,7 @@ class PhotoViewController: UIViewController {
         assets.removeAtIndex(current)
         
         var l = true
-        if (current + 1 == total) {
+        if current + 1 == total {
             l = false
             current -= 1
         }
@@ -293,7 +293,7 @@ class PhotoViewController: UIViewController {
     }
     
     func undo() {
-        if (self.delete.count > 0) {
+        if self.delete.count > 0 {
             var deleted = delete[delete.count - 1]
             assets.insert(deleted, atIndex: current)
             

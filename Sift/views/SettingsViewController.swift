@@ -40,7 +40,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var bindings = defaults.dictionaryForKey(BindingsDefault) as [String: String]
         
         var value = gestureToString(gestures[indexPath.row])
-        cell.textLabel.text = value
+        cell.textLabel?.text = value
         cell.detailTextLabel?.text = bindings[value]
         
         return cell
