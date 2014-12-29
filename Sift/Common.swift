@@ -8,6 +8,8 @@
 
 import UIKit
 
+let nc = NSNotificationCenter.defaultCenter()
+
 var device = UIScreen.mainScreen().bounds
 var defaults = NSUserDefaults.standardUserDefaults()
 
@@ -81,4 +83,8 @@ func stringToAction(value: String) -> PSAction {
     default:
         return PSAction.None
     }
+}
+
+enum PSSide {
+    case Up, Left, Down, Right
 }

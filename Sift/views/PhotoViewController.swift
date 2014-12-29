@@ -17,7 +17,7 @@ class PhotoViewController: UIViewController {
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var trashButton: UIButton!
     
-    @IBOutlet var photoView: UIView!
+    @IBOutlet var photoView: PhotoView!
     var hidden = false
     
     var assets = [PSAsset]()
@@ -69,7 +69,7 @@ class PhotoViewController: UIViewController {
                         var img = self.assets[0].image
                         self.currentImage = UIImageView(image: img)
                         self.currentImage.frame = CGRectMake((device.size.width - img.size.width) / 2, (device.size.height - img.size.height) / 2, device.width, img.size.height)
-                        self.photoView.insertSubview(self.currentImage, belowSubview: self.navigationController!.navigationBar)
+                        self.photoView.loadAsset(self.assets[0], fromSide: .Up, dismissToSide: .Up)
                         self.photoTitle?.text = self.assets[self.current].name
                     }
                     self.total += 1
@@ -187,17 +187,17 @@ class PhotoViewController: UIViewController {
         var bindings = defaults.dictionaryForKey(BindingsDefault) as [String: String]
         var action = stringToAction(bindings[gestureToString(gesture)]!)
         switch action {
-        case PSAction.NextPhoto:
+        case .NextPhoto:
             nextPhoto()
-        case PSAction.PreviousPhoto:
+        case .PreviousPhoto:
             previousPhoto()
-        case PSAction.DeletePhoto:
+        case .DeletePhoto:
             deletePhoto()
-        case PSAction.QuickShare:
+        case .QuickShare:
             quickShare()
-        case PSAction.Share:
+        case .Share:
             sharePhoto()
-        case PSAction.Undo:
+        case .Undo:
             undo()
         default:
             NSLog("wat")
@@ -205,35 +205,13 @@ class PhotoViewController: UIViewController {
     }
     
     func nextPhoto() {
-        changePhoto(true)
+        photoView.loadAsset(assets[current + 1], fromSide: .Right, dismissToSide: .Left)
+        current += 1
     }
     
     func previousPhoto() {
-        changePhoto(false)
-    }
-    
-    func changePhoto(direction: Bool) {
-        var l = direction
-        
-        if l ? current + 1 == total : current == 0 {
-            return
-        }
-        
-        current += l ? 1 : -1
-        var img = assets[current].image
-        nextImage = UIImageView(image: img)
-        nextImage.frame = CGRectMake(l ? device.width : -device.width, (device.size.height - img.size.height) / 2, img.size.width, img.size.height)
-        self.photoView.insertSubview(self.nextImage, belowSubview: self.navigationController!.navigationBar)
-        
-        UIView.animateWithDuration(0.15, animations: { () -> Void in
-            self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
-            self.currentImage.frame = CGRectMake(l ? -device.width : device.width, self.currentImage.frame.origin.y, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
-        }) { (done) -> Void in
-            self.photoTitle.text = self.assets[self.current].name
-            self.currentImage.removeFromSuperview()
-            self.currentImage = self.nextImage
-            self.nextImage = nil
-        }
+        photoView.loadAsset(assets[current - 1], fromSide: .Left, dismissToSide: .Right)
+        current -= 1
     }
     
     func deletePhoto() {
@@ -246,21 +224,10 @@ class PhotoViewController: UIViewController {
             current -= 1
         }
         
-        var img = assets[current].image
-        nextImage = UIImageView(image: img)
-        nextImage.frame = CGRectMake(l ? device.width : -device.width, (device.size.height - img.size.height) / 2, img.size.width, img.size.height)
-        self.photoView.insertSubview(self.nextImage, belowSubview: self.navigationController!.navigationBar)
+        photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Down)
         
-        UIView.animateWithDuration(0.15, animations: { () -> Void in
-            self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
-            self.currentImage.frame = CGRectMake(0, device.height, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
-        }) { (done) -> Void in
-            self.photoTitle.text = self.assets[self.current].name
-            self.currentImage.removeFromSuperview()
-            self.currentImage = self.nextImage
-            self.nextImage = nil
-            self.total -= 1
-        }
+        self.photoTitle.text = self.assets[self.current].name
+        total -= 1
     }
     
     func quickShare() {
@@ -279,21 +246,10 @@ class PhotoViewController: UIViewController {
             current -= 1
         }
         
-        var img = assets[current].image
-        nextImage = UIImageView(image: img)
-        nextImage.frame = CGRectMake(l ? device.width : -device.width, (device.size.height - img.size.height) / 2, img.size.width, img.size.height)
-        self.photoView.insertSubview(self.nextImage, belowSubview: self.navigationController!.navigationBar)
+        photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Up)
         
-        UIView.animateWithDuration(0.15, animations: { () -> Void in
-            self.nextImage.frame = CGRectMake(0, self.nextImage.frame.origin.y, device.width, self.nextImage.frame.size.height)
-            self.currentImage.frame = CGRectMake(0, -self.currentImage.frame.size.height, self.currentImage.frame.size.width, self.currentImage.frame.size.height)
-        }) { (done) -> Void in
-            self.photoTitle.text = self.assets[self.current].name
-            self.currentImage.removeFromSuperview()
-            self.currentImage = self.nextImage
-            self.nextImage = nil
-            self.total -= 1
-        }
+        self.photoTitle.text = self.assets[self.current].name
+        self.total -= 1
     }
     
     func undo() {
