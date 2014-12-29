@@ -146,7 +146,7 @@ class PhotoViewController: UIViewController {
         }
     }
     
-    @IBAction func doneButton(sender: AnyObject) {
+    @IBAction func deleteButton(sender: AnyObject) {
         if delete.count > 0 {
             var todelete = [PHAsset]()
             for asset in delete {
@@ -159,16 +159,12 @@ class PhotoViewController: UIViewController {
                 if success {
                     self.delete = [PSAsset]()
                 }
-                
-                self.sharePhotos()
             })
-        } else {
-            sharePhotos()
         }
     }
     
-    func sharePhotos() {
-        if self.share.count > 0 {
+    @IBAction func shareButton(sender: AnyObject) {
+        if share.count > 0 {
             var toshare = [UIImage]()
             for asset in self.share {
                 toshare.append(asset.image)
@@ -180,7 +176,7 @@ class PhotoViewController: UIViewController {
     }
     
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
-        performAction(PSGesture.Shake)
+        performAction(.Shake)
     }
     
     func performAction(gesture: PSGesture) {
