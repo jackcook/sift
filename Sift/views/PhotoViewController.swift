@@ -56,7 +56,7 @@ class PhotoViewController: UIViewController {
                     if idx == 0 {
                         var img = self.assets[0].image
                         self.currentImage = UIImageView(image: img)
-                        self.currentImage.frame = CGRectMake((device.size.width - img.size.width) / 2, (device.size.height - img.size.height) / 2, device.width, img.size.height)
+                        self.currentImage.frame = CGRectMake((deviceSize.width - img.size.width) / 2, (deviceSize.height - img.size.height) / 2, deviceSize.width, img.size.height)
                         self.photoView.loadAsset(self.assets[0], fromSide: .Up, dismissToSide: .Up)
                         self.photoTitle?.text = self.assets[self.current].name
                     }

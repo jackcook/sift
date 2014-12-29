@@ -6,11 +6,19 @@
 //  Copyright (c) 2014 CosmicByte. All rights reserved.
 //
 
+import Photos
 import UIKit
 
 let nc = NSNotificationCenter.defaultCenter()
 
-var device = UIScreen.mainScreen().bounds
+var deviceSize = UIScreen.mainScreen().bounds
+
+class PSAsset: NSObject {
+    var asset: PHAsset!
+    var image: UIImage!
+    var name: String!
+    var index = 0
+}
 
 enum PSSide {
     case Up, Left, Down, Right

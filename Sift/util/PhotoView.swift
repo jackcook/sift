@@ -55,9 +55,9 @@ class PhotoView: UIView {
         } else if side == .Left {
             newImageView.frame.origin.x = -newImageView.frame.size.width
         } else if side == .Down {
-            newImageView.frame.origin.y = device.height
+            newImageView.frame.origin.y = deviceSize.height
         } else if side == .Right {
-            newImageView.frame.origin.x = device.width
+            newImageView.frame.origin.x = deviceSize.width
         }
         
         if dismissSide == .Up {
@@ -65,9 +65,9 @@ class PhotoView: UIView {
         } else if dismissSide == .Left {
             newFrame.origin.x = -newFrame.size.width
         } else if dismissSide == .Down {
-            newFrame.origin.y = device.height
+            newFrame.origin.y = deviceSize.height
         } else if dismissSide == .Right {
-            newFrame.origin.x = device.width
+            newFrame.origin.x = deviceSize.width
         }
         
         if imageView.image != nil {
