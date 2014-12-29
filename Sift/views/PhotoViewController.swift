@@ -12,7 +12,6 @@ import UIKit
 class PhotoViewController: UIViewController {
     
     @IBOutlet var topBar: UIImageView!
-    @IBOutlet var settingsButton: UIButton!
     @IBOutlet var photoTitle: UILabel!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var trashButton: UIButton!
@@ -25,7 +24,6 @@ class PhotoViewController: UIViewController {
     var share = [PSAsset]()
     
     var current = 0
-    var total = 0
     
     var currentImage: UIImageView!
     var nextImage: UIImageView!
@@ -62,7 +60,6 @@ class PhotoViewController: UIViewController {
                         self.photoView.loadAsset(self.assets[0], fromSide: .Up, dismissToSide: .Up)
                         self.photoTitle?.text = self.assets[self.current].name
                     }
-                    self.total += 1
                 }
             }
         }
@@ -104,7 +101,6 @@ class PhotoViewController: UIViewController {
     func toggleUI() {
         UIView.animateWithDuration(0.4, animations: { () -> Void in
             self.topBar.alpha = self.hidden ? 1 : 0
-            self.settingsButton.alpha = self.hidden ? 1 : 0
             self.photoTitle.alpha = self.hidden ? 1 : 0
             self.shareButton.alpha = self.hidden ? 1 : 0
             self.trashButton.alpha = self.hidden ? 1 : 0
@@ -147,15 +143,25 @@ class PhotoViewController: UIViewController {
     }
     
     func nextPhoto() {
-        photoView.loadAsset(assets[current + 1], fromSide: .Right, dismissToSide: .Left)
-        photoTitle.text = assets[current].name
+        if current + 1 == assets.count {
+            return
+        }
+        
         current += 1
+        
+        photoView.loadAsset(assets[current], fromSide: .Right, dismissToSide: .Left)
+        photoTitle.text = assets[current].name
     }
     
     func previousPhoto() {
-        photoView.loadAsset(assets[current - 1], fromSide: .Left, dismissToSide: .Right)
-        photoTitle.text = assets[current].name
+        if current == 0 {
+            return
+        }
+        
         current -= 1
+        
+        photoView.loadAsset(assets[current], fromSide: .Left, dismissToSide: .Right)
+        photoTitle.text = assets[current].name
     }
     
     func deletePhoto() {
@@ -163,16 +169,13 @@ class PhotoViewController: UIViewController {
         assets.removeAtIndex(current)
         
         var l = true
-        if current + 1 == total {
+        if current == assets.count {
             l = false
             current -= 1
         }
         
         photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Down)
         photoTitle.text = assets[current].name
-        
-        photoTitle.text = assets[current].name
-        total -= 1
     }
     
     func quickShare() {
@@ -186,15 +189,13 @@ class PhotoViewController: UIViewController {
         assets.removeAtIndex(current)
         
         var l = true
-        if current + 1 == total {
+        if current == assets.count {
             l = false
             current -= 1
         }
         
         photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Up)
-        
         photoTitle.text = assets[current].name
-        total -= 1
     }
     
     func undo() {
