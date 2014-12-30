@@ -130,11 +130,11 @@ class PhotoViewController: UIViewController {
     }
     
     @IBAction func shareButton(sender: AnyObject) {
-        var toshare = [PHAsset]()
+        var toshare = [UIImage]()
         
         for asset in assets {
             if asset.status == .Share {
-                toshare.append(asset.asset)
+                toshare.append(asset.image)
             }
         }
         
@@ -201,7 +201,7 @@ class PhotoViewController: UIViewController {
         })
         
         current = assets.previousAssetWithStatus(.Normal)
-        photoView.loadAsset(current, fromSide: .Down, dismissToSide: .Right)
+        photoView.loadAsset(current, fromSide: insert.status == .Delete ? .Down : .Up, dismissToSide: .Right)
         photoTitle.text = current.name
     }
     
