@@ -22,6 +22,8 @@ class PhotoViewController: UIViewController {
     var assets = [PSAsset]()
     var current: PSAsset!
     
+    var undoStack = [PSAsset]()
+    
     var currentImage: UIImageView!
     var nextImage: UIImageView!
     
@@ -45,7 +47,6 @@ class PhotoViewController: UIViewController {
                 if image.size.width > 100 && info["PHImageFileURLKey"] != nil {
                     asset.image = image
                     asset.name = (info["PHImageFileURLKey"]! as NSURL).lastPathComponent
-                    asset.index = idx
                     asset.status = .Normal
                     self.assets.append(asset)
                     
@@ -80,7 +81,7 @@ class PhotoViewController: UIViewController {
         tap.numberOfTapsRequired = 1
         photoView.addGestureRecognizer(tap)
         
-        var dtap = UITapGestureRecognizer(target: self, action: "deleteButton")
+        var dtap = UITapGestureRecognizer(target: self, action: "quickShare")
         dtap.numberOfTapsRequired = 2
         photoView.addGestureRecognizer(dtap)
     }
@@ -148,7 +149,7 @@ class PhotoViewController: UIViewController {
     }
     
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
-        //undo()
+        undo()
     }
     
     func nextPhoto() {
@@ -168,40 +169,41 @@ class PhotoViewController: UIViewController {
             obj.status = .Delete
         }
         
+        undoStack.append(current)
+        
         current = assets.nextAssetWithStatus(.Normal)
         photoView.loadAsset(current, fromSide: .Right, dismissToSide: .Down)
+        photoTitle.text = current.name
     }
     
-    /*func quickShare() {
-        var image = assets[current].image
-        var activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+    func quickShare() {
+        var activityController = UIActivityViewController(activityItems: [current.image], applicationActivities: nil)
         self.presentViewController(activityController, animated: true, completion: nil)
     }
     
     func sharePhoto() {
-        share.append(assets[current])
-        assets.removeAtIndex(current)
-        
-        var l = true
-        if current == assets.count {
-            l = false
-            current -= 1
+        assets.getObject(current) { (obj) -> () in
+            obj.status = .Share
         }
         
-        photoView.loadAsset(assets[current], fromSide: l ? .Right : .Left, dismissToSide: .Up)
-        photoTitle.text = assets[current].name
+        undoStack.append(current)
+        
+        current = assets.nextAssetWithStatus(.Normal)
+        photoView.loadAsset(current, fromSide: .Right, dismissToSide: .Up)
+        photoTitle.text = current.name
     }
     
     func undo() {
-        if delete.count > 0 {
-            var deleted = delete[delete.count - 1]
-            assets.insert(deleted, atIndex: current)
-            
-            delete.removeAtIndex(delete.count - 1)
-            
-            photoView.loadAsset(assets[current], fromSide: .Down, dismissToSide: .Right)
-        }
-    }*/
+        var insert = undoStack.last!
+        
+        assets.getObject(insert, block: { (object) -> () in
+            object.status = .Normal
+        })
+        
+        current = assets.previousAssetWithStatus(.Normal)
+        photoView.loadAsset(current, fromSide: .Down, dismissToSide: .Right)
+        photoTitle.text = current.name
+    }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent

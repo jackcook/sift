@@ -16,7 +16,6 @@ var deviceSize = UIScreen.mainScreen().bounds
 class PSAsset: NSObject {
     var asset: PHAsset!
     var image: UIImage!
-    var index = 0
     var name: String!
     var status = PSStatus.Normal
 }

@@ -35,6 +35,15 @@ extension Array {
         }
     }
     
+    mutating func insert<U: Equatable>(object: U, beforeObject objectBefore: U) {
+        for (idx, objectToCompare) in enumerate(self) {
+            if objectBefore == objectToCompare as? U {
+                self.insert(object as T, atIndex: idx)
+                break
+            }
+        }
+    }
+    
     /* ONLY USE WITH PSASSET ARRAYS */
     
     func nextAssetWithStatus(status: PSStatus) -> PSAsset {
